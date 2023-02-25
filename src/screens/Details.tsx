@@ -1,26 +1,36 @@
-import { Platform } from 'react-native';
-import { useEffect, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { Heading, Image, ScrollView, Text, VStack, useToast, HStack } from 'native-base';
+import { Platform } from "react-native";
+import { useEffect, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  Heading,
+  Image,
+  ScrollView,
+  Text,
+  VStack,
+  useToast,
+  HStack,
+} from "native-base";
 
-import { useCart } from '../hooks/useCart';
+import { useCart } from "../hooks/useCart";
 
-import { PRODUCTS } from '../data/products';
-import { Sizes } from '../components/Sizes';
+import { PRODUCTS } from "../data/products";
+import { Sizes } from "../components/Sizes";
 
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
-import { ScreenHeader } from '../components/ScreenHeader';
-import { ProductCardProps } from '../components/ProductCard';
+import { Input } from "../components/Input";
+import { Button } from "../components/Button";
+import { ScreenHeader } from "../components/ScreenHeader";
+import { ProductCardProps } from "../components/ProductCard";
 
 type RouteParamsProps = {
   productId: string;
-}
+};
 
 export function Details() {
-  const [size, setSize] = useState('35');
-  const [quantity, setQuantity] = useState('1');
-  const [product, setProduct] = useState<ProductCardProps>({} as ProductCardProps);
+  const [size, setSize] = useState("35");
+  const [quantity, setQuantity] = useState("1");
+  const [product, setProduct] = useState<ProductCardProps>(
+    {} as ProductCardProps
+  );
 
   const toast = useToast();
   const route = useRoute();
@@ -36,27 +46,29 @@ export function Details() {
         name: product.name,
         image: product.thumb,
         quantity: Number(quantity),
-        size: product.size
+        size: product.size,
       });
 
       toast.show({
-        title: 'Produto adicionado no carrinho',
-        placement: 'top',
-        bgColor: 'green.500'
+        title: "Produto adicionado no carrinho",
+        placement: "top",
+        bgColor: "green.500",
       });
 
-      navigate('cart');
+      navigate("cart");
     } catch (error) {
       toast.show({
-        title: 'Não foi possível adicionar o produto no carrinho',
-        placement: 'top',
-        bgColor: 'reed.500'
+        title: "Não foi possível adicionar o produto no carrinho",
+        placement: "top",
+        bgColor: "reed.500",
       });
     }
   }
 
   useEffect(() => {
-    const selected = PRODUCTS.filter(item => item.id === productId)[0] as ProductCardProps;
+    const selected = PRODUCTS.filter(
+      (item) => item.id === productId
+    )[0] as ProductCardProps;
     setProduct(selected);
   }, [productId]);
 
@@ -108,7 +120,10 @@ export function Details() {
 
           <Sizes onSelect={setSize} selected={size} />
 
-          <Button title="Adicionar no carrinho" onPress={handleAddProductToCart} />
+          <Button
+            title="Adicionar no carrinho"
+            onPress={handleAddProductToCart}
+          />
         </VStack>
       </ScrollView>
     </VStack>
